@@ -32,6 +32,13 @@ camera = dxcam.create()
 
 def check_running(frame) -> bool:
 	for x, y in APPLICATION_TRIGGER['positions']:
+
+		# FIXME
+		x *= application_bbox[2] - application_bbox[0]
+		y *= application_bbox[3] - application_bbox[1]
+		x = int(x)
+		y = int(y)
+
 		x += application_bbox[0]
 		y += application_bbox[1]
 		if frame[y][x][0] == APPLICATION_TRIGGER['color'][0] and frame[y][x][1] == APPLICATION_TRIGGER['color'][1]:
