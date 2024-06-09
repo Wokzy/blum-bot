@@ -1,0 +1,5 @@
+#Python3.10 or higher on WINDOWS!
+
+dxcam
+mouse
+pywin32
