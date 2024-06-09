@@ -1,3 +1,7 @@
+"""
+Opens game window and provides info about it
+"""
+
 import win32gui
 
 from constants import APPLICATION_NAME
