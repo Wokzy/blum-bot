@@ -8,7 +8,7 @@ import dxcam
 import mouse
 
 from prepare_app import prepare_app
-from constants import APPLICATION_TRIGGER, COLOR_TRIGGERS
+from constants import APPLICATION_TRIGGER, COLOR_TRIGGERS, PIXELS_PER_ITERATION
 
 
 __author__ = "Wokzy"
@@ -67,23 +67,18 @@ def main():
 	y_shift_bot = 250
 
 	print('Game detected!')
-	while True:
 
-		for x in range(application_bbox[0] + x_shift, application_bbox[2] - x_shift, 8):
-			for y in range(application_bbox[1] + y_shift_top, application_bbox[3] - y_shift_bot, 8):
+	x_range = range(application_bbox[0] + x_shift, application_bbox[2] - x_shift, PIXELS_PER_ITERATION)
+	y_range = range(application_bbox[1] + y_shift_top, application_bbox[3] - y_shift_bot, PIXELS_PER_ITERATION)
+	while check_running(frame):
+
+		for x in x_range:
+			for y in y_range:
 				if check_object(frame[y][x]):
 					mouse.move(x, y, absolute=True)
 					mouse.click(button='left')
-					# pyautogui.click(x = x, y = y, button='left')
-					# print(f'Found on: {x}, {y}')
-
 
 		frame = camera.get_latest_frame()
-		if not check_running(frame):
-			time.sleep(3)
-			if not check_running(frame):
-				break
-		# print('\n\n')
 
 	camera.stop()
 
