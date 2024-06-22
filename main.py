@@ -15,13 +15,8 @@ from constants import APPLICATION_TRIGGER, COLOR_TRIGGERS, PIXELS_PER_ITERATION,
 
 __author__ = "Wokzy"
 
-global application_bbox
-application_bbox = prepare_app()
-
-
-def check_running(frame) -> bool:
+def check_running(frame, application_bbox) -> bool:
 	""" Check if game is running by scanning color on timer positions """
-	global application_bbox
 
 	for x, y in APPLICATION_TRIGGER['positions']:
 
@@ -54,9 +49,10 @@ def check_object(pixel:tuple[int]) -> bool:
 def wait_running_game(camera, timeout:float = .0) -> None:
 	frame = camera.get_latest_frame()
 	timer = time.time()
-	while not check_running(frame):
+	application_bbox = prepare_app()
+	while not check_running(frame, application_bbox):
+		application_bbox = prepare_app()
 		frame = camera.get_latest_frame()
-		time.sleep(0.1)
 
 		if timeout > 0.0:
 			assert time.time() - timer < timeout, f"Game has not been started for {timeout} seconds, exiting"
@@ -84,6 +80,8 @@ def main():
 
 	game_counter = 0
 
+	application_bbox = prepare_app()
+
 	x_range = range(application_bbox[0] + x_shift, application_bbox[2] - x_shift, PIXELS_PER_ITERATION)
 	y_range = range(application_bbox[1] + y_shift_top, application_bbox[3] - y_shift_bot, PIXELS_PER_ITERATION)
 
@@ -92,7 +90,7 @@ def main():
 		print(f'Game {game_counter} detected!')
 		frame = camera.get_latest_frame()
 
-		while check_running(frame):
+		while check_running(frame, application_bbox):
 
 			for x in x_range:
 				for y in y_range:
