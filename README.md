@@ -11,5 +11,5 @@ A simple autoclicker for blum drop mini-game on python
 ---
  - In contrast to other bots, My script is interacting with user interface, NOT with Blum api, and does casual left button mouse clicks on "stars".
  - I CANNOT guarantee anything about punishments from Blum development team, because Im not a developer of blum
- - The only thing that I can guarantee, that My script is programmatically untraceable, which means Blum developers cannot easily differ my script from a casual human user.
+ - The only thing that I can guarantee is that My script is programmatically untraceable, which means Blum developers cannot definitely distinguish my script from a casual human user.
 
