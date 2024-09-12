@@ -7,10 +7,16 @@ import sys
 import time
 import dxcam
 import mouse
+import datetime
 
 from prepare_app import prepare_app
-from constants import APPLICATION_TRIGGER, COLOR_TRIGGERS, PIXELS_PER_ITERATION, \
-						NEW_GAME_TRIGGER_POS
+from constants import (
+	APPLICATION_TRIGGER,
+	COLOR_TRIGGERS,
+	PIXELS_PER_ITERATION,
+	NEW_GAME_TRIGGER_POS,
+	AVG_GAME_DURATION,
+)
 
 
 __author__ = "Wokzy"
@@ -47,9 +53,9 @@ def check_object(pixel:tuple[int]) -> bool:
 
 
 def wait_running_game(camera, timeout:float = .0) -> None:
+	application_bbox = prepare_app()
 	frame = camera.get_latest_frame()
 	timer = time.time()
-	application_bbox = prepare_app()
 	while not check_running(frame, application_bbox):
 		application_bbox = prepare_app()
 		frame = camera.get_latest_frame()
@@ -90,7 +96,9 @@ def main():
 		print(f'Game {game_counter} detected!')
 		frame = camera.get_latest_frame()
 
-		while check_running(frame, application_bbox):
+		__timer = datetime.datetime.now()
+
+		while check_running(frame, application_bbox) or (datetime.datetime.now() - __timer).total_seconds() < AVG_GAME_DURATION:
 
 			for x in x_range:
 				for y in y_range:
