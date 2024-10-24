@@ -16,6 +16,7 @@ from constants import (
 	PIXELS_PER_ITERATION,
 	NEW_GAME_TRIGGER_POS,
 	AVG_GAME_DURATION,
+	DOGS_WHITE_COLOR_RANGE,
 )
 
 
@@ -41,13 +42,24 @@ def check_running(frame, application_bbox) -> bool:
 	return False
 
 
-def check_object(pixel:tuple[int]) -> bool:
+def check_object(frame, x:int, y:int) -> bool:
 	""" Finding dropping objects by color """
-	if COLOR_TRIGGERS['red']['min'] <= pixel[0] <= COLOR_TRIGGERS['red']['max']:
-		if COLOR_TRIGGERS['green']['min'] <= pixel[1] <= COLOR_TRIGGERS['green']['max']:
-			# print(pixel)
-			if COLOR_TRIGGERS['blue']['min'] <= pixel[2] <= COLOR_TRIGGERS['blue']['max']:
+	if COLOR_TRIGGERS['red']['min'] <= frame[y][x][0] <= COLOR_TRIGGERS['red']['max']:
+		if COLOR_TRIGGERS['green']['min'] <= frame[y][x][1] <= COLOR_TRIGGERS['green']['max']:
+			# print(frame[y][x])
+			if COLOR_TRIGGERS['blue']['min'] <= frame[y][x][2] <= COLOR_TRIGGERS['blue']['max']:
 				return True
+
+	#DOGS DROP
+	if frame[y][x][0] == frame[y][x][1] == frame[y][x][2] and DOGS_WHITE_COLOR_RANGE[0] <= frame[y][x][0] <= DOGS_WHITE_COLOR_RANGE[1]:
+		counter = 0
+		for i in range(-1, 2):
+			for j in range(-4, 2):
+				counter += (frame[y + j][x + i][0] == frame[y + j][x + i][1] == frame[y + j][x + i][2] and DOGS_WHITE_COLOR_RANGE[0] <= frame[y + j][x + i][0] <= DOGS_WHITE_COLOR_RANGE[1])
+
+		if counter >= 10:
+			return True
+
 
 	return False
 
@@ -102,7 +114,7 @@ def main():
 
 			for x in x_range:
 				for y in y_range:
-					if check_object(frame[y][x]):
+					if check_object(frame, x, y):
 						mouse.move(x, y, absolute=True)
 						mouse.click(button='left')
 
