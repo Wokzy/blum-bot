@@ -1,6 +1,6 @@
 # BlumBot
 ___
-A simple autoclicker for blum drop mini-game on python
+A simple autoclicker for blum drop mini-game on python (autoclicker collects **$dogs**)
 
 ## Usage
  - Start tg app, then `main.py` and press play
