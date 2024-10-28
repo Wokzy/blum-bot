@@ -12,11 +12,15 @@ import datetime
 from prepare_app import prepare_app
 from constants import (
 	APPLICATION_TRIGGER,
-	COLOR_TRIGGERS,
+	DEFAULT_COLOR_TRIGGER,
 	PIXELS_PER_ITERATION,
 	NEW_GAME_TRIGGER_POS,
 	AVG_GAME_DURATION,
 	DOGS_WHITE_COLOR_RANGE,
+	DOGS_DROP_TOGGLE,
+	HALLOWEEN_MODE,
+	BOMB_COLOR_TRIGGER,
+	HALLOWEEN_COLOR_TRIGGER,
 )
 
 
@@ -44,21 +48,33 @@ def check_running(frame, application_bbox) -> bool:
 
 def check_object(frame, x:int, y:int) -> bool:
 	""" Finding dropping objects by color """
-	if COLOR_TRIGGERS['red']['min'] <= frame[y][x][0] <= COLOR_TRIGGERS['red']['max']:
-		if COLOR_TRIGGERS['green']['min'] <= frame[y][x][1] <= COLOR_TRIGGERS['green']['max']:
-			# print(frame[y][x])
-			if COLOR_TRIGGERS['blue']['min'] <= frame[y][x][2] <= COLOR_TRIGGERS['blue']['max']:
-				return True
+
+	def _check_color_trigger(color_trigger):
+		if color_trigger['red']['min'] <= frame[y][x][0] <= color_trigger['red']['max']:
+			if color_trigger['green']['min'] <= frame[y][x][1] <= color_trigger['green']['max']:
+				# print(frame[y][x])
+				if color_trigger['blue']['min'] <= frame[y][x][2] <= color_trigger['blue']['max']:
+					return True
+		return False
+
+	if HALLOWEEN_MODE:
+		if _check_color_trigger(HALLOWEEN_COLOR_TRIGGER) or _check_color_trigger(BOMB_COLOR_TRIGGER):
+			return True
+	else:
+		if _check_color_trigger(DEFAULT_COLOR_TRIGGER):
+			return True
 
 	#DOGS DROP
-	if frame[y][x][0] == frame[y][x][1] == frame[y][x][2] and DOGS_WHITE_COLOR_RANGE[0] <= frame[y][x][0] <= DOGS_WHITE_COLOR_RANGE[1]:
-		counter = 0
-		for i in range(-1, 2):
-			for j in range(-4, 2):
-				counter += (frame[y + j][x + i][0] == frame[y + j][x + i][1] == frame[y + j][x + i][2] and DOGS_WHITE_COLOR_RANGE[0] <= frame[y + j][x + i][0] <= DOGS_WHITE_COLOR_RANGE[1])
 
-		if counter >= 10:
-			return True
+	if DOGS_DROP_TOGGLE:
+		if frame[y][x][0] == frame[y][x][1] == frame[y][x][2] and DOGS_WHITE_COLOR_RANGE[0] <= frame[y][x][0] <= DOGS_WHITE_COLOR_RANGE[1]:
+			counter = 0
+			for i in range(-1, 2):
+				for j in range(-4, 2):
+					counter += (frame[y + j][x + i][0] == frame[y + j][x + i][1] == frame[y + j][x + i][2] and DOGS_WHITE_COLOR_RANGE[0] <= frame[y + j][x + i][0] <= DOGS_WHITE_COLOR_RANGE[1])
+
+			if counter >= 10:
+				return True
 
 
 	return False
@@ -81,7 +97,10 @@ def main():
 
 	amount_of_games = 1
 	if len(sys.argv) > 1:
-		amount_of_games = int(sys.argv[1])
+		for arg in sys.argv:
+			if arg.isnumeric():
+				amount_of_games = int(arg)
+				break
 
 	camera = dxcam.create()
 	camera.start(target_fps=60)
@@ -129,7 +148,7 @@ def main():
 			mouse.move(x, y, absolute=True)
 			mouse.click(button='left')
 
-			wait_running_game(camera, timeout = 5.5)
+			wait_running_game(camera, timeout = 12.5)
 
 	camera.stop()
 

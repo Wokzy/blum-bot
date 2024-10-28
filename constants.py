@@ -1,4 +1,4 @@
-
+import sys
 
 """On different devices app size is also different, 
 	so i located triggers on mine and devided it by window size on my pc,
@@ -6,7 +6,7 @@
 DEV_SCREEN_SIZE_CONST = (402, 712)
 
 APPLICATION_NAME = 'TelegramDesktop'
-COLOR_TRIGGERS = {
+DEFAULT_COLOR_TRIGGER = {
 					"red":{"min":90, "max":255},
 					"green":{"min":220, "max":255},
 					"blue":{"min":5, "max":55}}
@@ -20,3 +20,15 @@ AVG_GAME_DURATION = 30 # seconds
 
 #Dogs drop
 DOGS_WHITE_COLOR_RANGE = (238, 256)
+DOGS_DROP_TOGGLE = '--disable-dogs' not in sys.argv
+
+# Halloween
+HALLOWEEN_MODE = '--halloween' in sys.argv
+HALLOWEEN_COLOR_TRIGGER = {
+					"red":{"min":220, "max":240},
+					"green":{"min":95, "max":130},
+					"blue":{"min":35, "max":55}}
+BOMB_COLOR_TRIGGER = {
+					"red":{"min":125, "max":140},
+					"green":{"min":125, "max":135},
+					"blue":{"min":125, "max":135}}
