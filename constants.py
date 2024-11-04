@@ -6,6 +6,11 @@ import sys
 HALLOWEEN_MODE = '--halloween' in sys.argv
 DOGS_DROP_TOGGLE = '--disable-dogs' not in sys.argv
 
+CLICK_LIMIT = 1.0
+for arg in sys.argv:
+	if '--click-limit' in arg:
+		CLICK_LIMIT = float(arg.split('=')[1])
+
 
 DEV_SCREEN_SIZE_CONST = (402, 712)
 
@@ -34,3 +39,19 @@ BOMB_COLOR_TRIGGER = {
 					"red":{"min":125, "max":140},
 					"green":{"min":125, "max":135},
 					"blue":{"min":125, "max":135}}
+
+
+HELP_STRING = \
+"""
+Usage: main.py [AMOUNT OF GAMES] [OPTIONS]
+
+Options:
+	--help           - show this string
+	--halloween      - enable halloween mode
+	--disable-dogs   - don't collect dogs
+	--click-limit=n  - limit clicks (Example: --click-limit=0.05, only 5% of clicks)
+
+Keybidings:
+	1 - decrease clicks limit
+	2 - increase clicks limit
+"""

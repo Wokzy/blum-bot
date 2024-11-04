@@ -7,19 +7,23 @@ import sys
 import time
 import dxcam
 import mouse
+import random
+import keyboard
 import datetime
 
 from prepare_app import prepare_app
 from constants import (
-	APPLICATION_TRIGGER,
-	DEFAULT_COLOR_TRIGGER,
-	PIXELS_PER_ITERATION,
-	NEW_GAME_TRIGGER_POS,
-	AVG_GAME_DURATION,
-	DOGS_WHITE_COLOR_RANGE,
-	DOGS_DROP_TOGGLE,
+	CLICK_LIMIT,
+	HELP_STRING,
 	HALLOWEEN_MODE,
+	DOGS_DROP_TOGGLE,
+	AVG_GAME_DURATION,
 	BOMB_COLOR_TRIGGER,
+	APPLICATION_TRIGGER,
+	NEW_GAME_TRIGGER_POS,
+	PIXELS_PER_ITERATION,
+	DEFAULT_COLOR_TRIGGER,
+	DOGS_WHITE_COLOR_RANGE,
 	HALLOWEEN_COLOR_TRIGGER,
 )
 
@@ -50,6 +54,9 @@ def check_object(frame, x:int, y:int) -> bool:
 	""" Finding dropping objects by color """
 
 	def _check_color_trigger(color_trigger):
+		if random.random() > CLICK_LIMIT:
+			return False
+
 		if color_trigger['red']['min'] <= frame[y][x][0] <= color_trigger['red']['max']:
 			if color_trigger['green']['min'] <= frame[y][x][1] <= color_trigger['green']['max']:
 				# print(frame[y][x])
@@ -107,6 +114,7 @@ def main():
 
 	frame = camera.get_latest_frame() # frame is an array with shape (y, x, 3)
 
+	print(f'Limited clicks: {CLICK_LIMIT}')
 	print('Trying to detect running game, click play')
 	wait_running_game(camera)
 	# time.sleep(2)
@@ -137,6 +145,7 @@ def main():
 						mouse.move(x, y, absolute=True)
 						mouse.click(button='left')
 
+			time.sleep(0.3)
 			frame = camera.get_latest_frame()
 		else:
 			print('Finished')
@@ -152,5 +161,23 @@ def main():
 
 	camera.stop()
 
+def increase_click_limit():
+	global CLICK_LIMIT
+	CLICK_LIMIT = min(1.0, CLICK_LIMIT + 0.01)
+	print(f'Limit: {CLICK_LIMIT:.4}')
+
+
+def decrease_click_limit():
+	global CLICK_LIMIT
+	CLICK_LIMIT = max(0.0, CLICK_LIMIT - 0.01)
+	print(f'Limit: {CLICK_LIMIT:.4}')
+
+
 if __name__ == "__main__":
-	main()
+	keyboard.add_hotkey('1', decrease_click_limit)
+	keyboard.add_hotkey('2', increase_click_limit)
+
+	if '--help' in sys.argv:
+		print(HELP_STRING)
+	else:
+		main()

@@ -10,6 +10,10 @@ A simple autoclicker for blum drop mini-game on python (autoclicker collects **$
  - DO NOT CLOSE GAME WINDOW BEFORE GAME IS FINISHED
  - You can run `main.py [amount_of_games]`, where `[amount_of_games]` is amount of games to be played in a row
 
+#### Keybindigs:
+ - `1` - decrease clicks limit
+ - `2` - increase clicks limit
+
 ### Will I be banned for using this script?
 ---
  - In contrast to other bots, My script is interacting with user interface, NOT with Blum api, and does casual left button mouse clicks on "stars".
