@@ -4,6 +4,7 @@ import sys
 	so i located triggers on mine and devided it by window size on my pc,
 	in game this coefficients are multiplied by actual window size to get correct coordinates"""
 HALLOWEEN_MODE = '--halloween' in sys.argv
+ELECTIONS_MODE = '--elections' in sys.argv
 DOGS_DROP_TOGGLE = '--disable-dogs' not in sys.argv
 
 CLICK_LIMIT = 1.0
@@ -40,6 +41,20 @@ BOMB_COLOR_TRIGGER = {
 					"green":{"min":125, "max":135},
 					"blue":{"min":125, "max":135}}
 
+#Election
+ELECTIONS_COLOR_TRIGGERS = [
+					{
+					"red":{"min":250, "max":255},
+					"green":{"min":130, "max":140},
+					"blue":{"min":90, "max":105}
+					},
+					{
+					"red":{"min":220, "max":230},
+					"green":{"min":160, "max":175},
+					"blue":{"min":125, "max":135}
+					}
+]
+
 
 HELP_STRING = \
 """
@@ -48,6 +63,7 @@ Usage: main.py [AMOUNT OF GAMES] [OPTIONS]
 Options:
 	--help           - show this string
 	--halloween      - enable halloween mode
+	--elections      - enable elections mode
 	--disable-dogs   - don't collect dogs
 	--click-limit=n  - limit clicks (Example: --click-limit=0.05, only 5% of clicks)
 

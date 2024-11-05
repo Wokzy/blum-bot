@@ -15,6 +15,7 @@ from prepare_app import prepare_app
 from constants import (
 	CLICK_LIMIT,
 	HELP_STRING,
+	ELECTIONS_MODE,
 	HALLOWEEN_MODE,
 	DOGS_DROP_TOGGLE,
 	AVG_GAME_DURATION,
@@ -25,6 +26,7 @@ from constants import (
 	DEFAULT_COLOR_TRIGGER,
 	DOGS_WHITE_COLOR_RANGE,
 	HALLOWEEN_COLOR_TRIGGER,
+	ELECTIONS_COLOR_TRIGGERS,
 )
 
 
@@ -53,8 +55,8 @@ def check_running(frame, application_bbox) -> bool:
 def check_object(frame, x:int, y:int) -> bool:
 	""" Finding dropping objects by color """
 
-	def _check_color_trigger(color_trigger):
-		if random.random() > CLICK_LIMIT:
+	def _check_color_trigger(color_trigger, limit:bool=True):
+		if not limit and random.random() > CLICK_LIMIT:
 			return False
 
 		if color_trigger['red']['min'] <= frame[y][x][0] <= color_trigger['red']['max']:
@@ -71,8 +73,12 @@ def check_object(frame, x:int, y:int) -> bool:
 		if _check_color_trigger(DEFAULT_COLOR_TRIGGER):
 			return True
 
-	#DOGS DROP
+	if ELECTIONS_MODE:
+		for color_trigger in ELECTIONS_COLOR_TRIGGERS:
+			if _check_color_trigger(color_trigger, False):
+				return True
 
+	#DOGS DROP
 	if DOGS_DROP_TOGGLE:
 		if frame[y][x][0] == frame[y][x][1] == frame[y][x][2] and DOGS_WHITE_COLOR_RANGE[0] <= frame[y][x][0] <= DOGS_WHITE_COLOR_RANGE[1]:
 			counter = 0

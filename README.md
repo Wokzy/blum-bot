@@ -2,8 +2,8 @@
 ___
 A simple autoclicker for blum drop mini-game on python (autoclicker collects **$dogs**)
 
-### Halloween mode:
- - run `main.py --halloween` to enable halloween mode (bot will collect pumpkins and bombs)
+### Elections mode:
+ - run `main.py --elections` to enable elections mode
 
 ## Usage
  - Start tg app, then `main.py` and press play
