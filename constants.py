@@ -5,6 +5,7 @@ import sys
 	in game this coefficients are multiplied by actual window size to get correct coordinates"""
 HALLOWEEN_MODE = '--halloween' in sys.argv
 ELECTIONS_MODE = '--elections' in sys.argv
+FOOTBALL_MODE = '--football' in sys.argv
 DOGS_DROP_TOGGLE = '--disable-dogs' not in sys.argv
 
 CLICK_LIMIT = 1.0
@@ -63,6 +64,7 @@ Usage: main.py [AMOUNT OF GAMES] [OPTIONS]
 Options:
 	--help           - show this string
 	--halloween      - enable halloween mode
+	--football      - enable football mode
 	--elections      - enable elections mode
 	--disable-dogs   - don't collect dogs
 	--click-limit=n  - limit clicks (Example: --click-limit=0.05, only 5% of clicks)

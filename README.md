@@ -2,8 +2,8 @@
 ___
 A simple autoclicker for blum drop mini-game on python (autoclicker collects **$dogs**)
 
-### Elections mode:
- - run `main.py --elections` to enable elections mode
+### Football mode:
+ - run `main.py --football` to enable football mode
 
 ## Usage
  - Start tg app, then `main.py` and press play

@@ -15,6 +15,7 @@ from prepare_app import prepare_app
 from constants import (
 	CLICK_LIMIT,
 	HELP_STRING,
+	FOOTBALL_MODE,
 	ELECTIONS_MODE,
 	HALLOWEEN_MODE,
 	DOGS_DROP_TOGGLE,
@@ -78,6 +79,19 @@ def check_object(frame, x:int, y:int) -> bool:
 			if _check_color_trigger(color_trigger, False):
 				return True
 
+	if FOOTBALL_MODE:
+		if frame[y][x][0] == frame[y][x][1] == frame[y][x][2] == 255:
+			for i in range(-10, 10):
+				if 0 > (x + i) >= len(frame[0]):
+					continue
+
+				for j in range(-10, 10):
+					if 0 > (y + j) >= len(frame):
+						continue
+
+					if frame[y + j][x + i][0] < 40 and (frame[y + j][x + i][0] == frame[y + j][x + i][1] == frame[y + j][x + i][1]):
+						return True
+
 	#DOGS DROP
 	if DOGS_DROP_TOGGLE:
 		if frame[y][x][0] == frame[y][x][1] == frame[y][x][2] and DOGS_WHITE_COLOR_RANGE[0] <= frame[y][x][0] <= DOGS_WHITE_COLOR_RANGE[1]:
@@ -127,7 +141,7 @@ def main():
 
 	x_shift = 20
 	y_shift_top = 150
-	y_shift_bot = 250
+	y_shift_bot = 250 + 150*FOOTBALL_MODE
 
 	game_counter = 0
 
