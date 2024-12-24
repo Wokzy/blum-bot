@@ -2,7 +2,7 @@
 ___
 A simple autoclicker for blum drop mini-game on python (autoclicker collects **$dogs**)
 
-### Football mode:
+### Christmas mode:
  - run `main.py --xmas` to enable christmas mode
 
 ## Usage
