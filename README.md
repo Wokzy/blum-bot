@@ -3,7 +3,7 @@ ___
 A simple autoclicker for blum drop mini-game on python (autoclicker collects **$dogs**)
 
 ### Football mode:
- - run `main.py --football` to enable football mode
+ - run `main.py --xmas` to enable christmas mode
 
 ## Usage
  - Start tg app, then `main.py` and press play

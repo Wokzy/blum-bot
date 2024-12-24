@@ -3,6 +3,7 @@ import sys
 """On different devices app size is also different, 
 	so i located triggers on mine and devided it by window size on my pc,
 	in game this coefficients are multiplied by actual window size to get correct coordinates"""
+CHRISTMAS_MODE = '--xmas' in sys.argv
 HALLOWEEN_MODE = '--halloween' in sys.argv
 ELECTIONS_MODE = '--elections' in sys.argv
 FOOTBALL_MODE = '--football' in sys.argv
@@ -56,6 +57,35 @@ ELECTIONS_COLOR_TRIGGERS = [
 					}
 ]
 
+# X-mas update
+CHRISTMAS_COLOR_TRIGGERS = [
+					{
+					"red":{"min":240, "max":255},
+					"green":{"min":0, "max":15},
+					"blue":{"min":120, "max":200}
+					},
+					{
+					"red":{"min":50, "max":120},
+					"green":{"min":100, "max":210},
+					"blue":{"min":5, "max":40}
+					},
+					{
+					"red":{"min":130, "max":180},
+					"green":{"min":50, "max":80},
+					"blue":{"min":0, "max":20}
+					},
+					{
+					"red":{"min":250, "max":255},
+					"green":{"min":150, "max":190},
+					"blue":{"min":0, "max":20}
+					},
+					{
+					"red":{"min":230, "max":240},
+					"green":{"min":85, "max":160},
+					"blue":{"min":70, "max":140}
+					}
+]
+
 
 HELP_STRING = \
 """
@@ -63,8 +93,9 @@ Usage: main.py [AMOUNT OF GAMES] [OPTIONS]
 
 Options:
 	--help           - show this string
+	--xmas           - enable christmas mode
 	--halloween      - enable halloween mode
-	--football      - enable football mode
+	--football       - enable football mode
 	--elections      - enable elections mode
 	--disable-dogs   - don't collect dogs
 	--click-limit=n  - limit clicks (Example: --click-limit=0.05, only 5% of clicks)

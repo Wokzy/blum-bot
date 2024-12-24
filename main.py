@@ -17,6 +17,7 @@ from constants import (
 	HELP_STRING,
 	FOOTBALL_MODE,
 	ELECTIONS_MODE,
+	CHRISTMAS_MODE,
 	HALLOWEEN_MODE,
 	DOGS_DROP_TOGGLE,
 	AVG_GAME_DURATION,
@@ -27,6 +28,7 @@ from constants import (
 	DEFAULT_COLOR_TRIGGER,
 	DOGS_WHITE_COLOR_RANGE,
 	HALLOWEEN_COLOR_TRIGGER,
+	CHRISTMAS_COLOR_TRIGGERS,
 	ELECTIONS_COLOR_TRIGGERS,
 )
 
@@ -57,7 +59,7 @@ def check_object(frame, x:int, y:int) -> bool:
 	""" Finding dropping objects by color """
 
 	def _check_color_trigger(color_trigger, limit:bool=True):
-		if not limit and random.random() > CLICK_LIMIT:
+		if limit and random.random() > CLICK_LIMIT:
 			return False
 
 		if color_trigger['red']['min'] <= frame[y][x][0] <= color_trigger['red']['max']:
@@ -70,6 +72,11 @@ def check_object(frame, x:int, y:int) -> bool:
 	if HALLOWEEN_MODE:
 		if _check_color_trigger(HALLOWEEN_COLOR_TRIGGER) or _check_color_trigger(BOMB_COLOR_TRIGGER):
 			return True
+	elif CHRISTMAS_MODE:
+		for trigger in CHRISTMAS_COLOR_TRIGGERS:
+			if _check_color_trigger(trigger):
+				return True
+		return False
 	else:
 		if _check_color_trigger(DEFAULT_COLOR_TRIGGER):
 			return True
@@ -165,7 +172,7 @@ def main():
 						mouse.move(x, y, absolute=True)
 						mouse.click(button='left')
 
-			time.sleep(0.3)
+			time.sleep(0.28)
 			frame = camera.get_latest_frame()
 		else:
 			print('Finished')
