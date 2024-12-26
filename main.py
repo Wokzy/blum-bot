@@ -15,10 +15,7 @@ from prepare_app import prepare_app
 from constants import (
 	CLICK_LIMIT,
 	HELP_STRING,
-	FOOTBALL_MODE,
-	ELECTIONS_MODE,
 	CHRISTMAS_MODE,
-	HALLOWEEN_MODE,
 	DOGS_DROP_TOGGLE,
 	AVG_GAME_DURATION,
 	BOMB_COLOR_TRIGGER,
@@ -27,9 +24,7 @@ from constants import (
 	PIXELS_PER_ITERATION,
 	DEFAULT_COLOR_TRIGGER,
 	DOGS_WHITE_COLOR_RANGE,
-	HALLOWEEN_COLOR_TRIGGER,
 	CHRISTMAS_COLOR_TRIGGERS,
-	ELECTIONS_COLOR_TRIGGERS,
 )
 
 
@@ -58,46 +53,30 @@ def check_running(frame, application_bbox) -> bool:
 def check_object(frame, x:int, y:int) -> bool:
 	""" Finding dropping objects by color """
 
-	def _check_color_trigger(color_trigger, limit:bool=True):
+	def _check_color_trigger(color_trigger, check_x=x, check_y=y, limit:bool=True):
 		if limit and random.random() > CLICK_LIMIT:
 			return False
 
-		if color_trigger['red']['min'] <= frame[y][x][0] <= color_trigger['red']['max']:
-			if color_trigger['green']['min'] <= frame[y][x][1] <= color_trigger['green']['max']:
-				# print(frame[y][x])
-				if color_trigger['blue']['min'] <= frame[y][x][2] <= color_trigger['blue']['max']:
+		if color_trigger['red']['min'] <= frame[check_y][check_x][0] <= color_trigger['red']['max']:
+			if color_trigger['green']['min'] <= frame[check_y][check_x][1] <= color_trigger['green']['max']:
+				# print(frame[check_y][check_x])
+				if color_trigger['blue']['min'] <= frame[check_y][check_x][2] <= color_trigger['blue']['max']:
 					return True
 		return False
 
-	if HALLOWEEN_MODE:
-		if _check_color_trigger(HALLOWEEN_COLOR_TRIGGER) or _check_color_trigger(BOMB_COLOR_TRIGGER):
-			return True
-	elif CHRISTMAS_MODE:
-		for trigger in CHRISTMAS_COLOR_TRIGGERS:
+	if CHRISTMAS_MODE:
+		for i in range(len(CHRISTMAS_COLOR_TRIGGERS)):
+			trigger = CHRISTMAS_COLOR_TRIGGERS[i]
 			if _check_color_trigger(trigger):
+				for lc_x in range(-45, 50, 3):
+					for lc_y in range(-50, 25, 3):
+						if _check_color_trigger(BOMB_COLOR_TRIGGER, x + lc_x, y + lc_y, limit=False):
+							return False
 				return True
 		return False
 	else:
 		if _check_color_trigger(DEFAULT_COLOR_TRIGGER):
 			return True
-
-	if ELECTIONS_MODE:
-		for color_trigger in ELECTIONS_COLOR_TRIGGERS:
-			if _check_color_trigger(color_trigger, False):
-				return True
-
-	if FOOTBALL_MODE:
-		if frame[y][x][0] == frame[y][x][1] == frame[y][x][2] == 255:
-			for i in range(-10, 10):
-				if 0 > (x + i) >= len(frame[0]):
-					continue
-
-				for j in range(-10, 10):
-					if 0 > (y + j) >= len(frame):
-						continue
-
-					if frame[y + j][x + i][0] < 40 and (frame[y + j][x + i][0] == frame[y + j][x + i][1] == frame[y + j][x + i][1]):
-						return True
 
 	#DOGS DROP
 	if DOGS_DROP_TOGGLE:
@@ -147,8 +126,8 @@ def main():
 	# time.sleep(2)
 
 	x_shift = 20
-	y_shift_top = 150
-	y_shift_bot = 250 + 150*FOOTBALL_MODE
+	y_shift_top = 150 + 50*CHRISTMAS_MODE
+	y_shift_bot = 250
 
 	game_counter = 0
 
@@ -172,7 +151,7 @@ def main():
 						mouse.move(x, y, absolute=True)
 						mouse.click(button='left')
 
-			time.sleep(0.28)
+			time.sleep(0.28 - .1*CHRISTMAS_MODE)
 			frame = camera.get_latest_frame()
 		else:
 			print('Finished')

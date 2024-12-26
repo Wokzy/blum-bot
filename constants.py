@@ -7,7 +7,7 @@ CHRISTMAS_MODE = '--xmas' in sys.argv
 HALLOWEEN_MODE = '--halloween' in sys.argv
 ELECTIONS_MODE = '--elections' in sys.argv
 FOOTBALL_MODE = '--football' in sys.argv
-DOGS_DROP_TOGGLE = '--disable-dogs' not in sys.argv
+DOGS_DROP_TOGGLE = '--enable-dogs' in sys.argv
 
 CLICK_LIMIT = 1.0
 for arg in sys.argv:
@@ -24,7 +24,7 @@ DEFAULT_COLOR_TRIGGER = {
 					"blue":{"min":5, "max":55}}
 APPLICATION_TRIGGER = {"color":(234, 212, 12), "positions":[(60/402, 112/712), (43/402, 110/712), 
 															(102/402, 113/712), (61/402, 106/712)]}
-PIXELS_PER_ITERATION = 10
+PIXELS_PER_ITERATION = 10 + 5*CHRISTMAS_MODE
 
 NEW_GAME_TRIGGER_POS = (210/402, 615/712)
 AVG_GAME_DURATION = 30 + 6*HALLOWEEN_MODE # seconds
@@ -32,30 +32,6 @@ AVG_GAME_DURATION = 30 + 6*HALLOWEEN_MODE # seconds
 
 #Dogs drop
 DOGS_WHITE_COLOR_RANGE = (238, 256)
-
-# Halloween
-HALLOWEEN_COLOR_TRIGGER = {
-					"red":{"min":220, "max":240},
-					"green":{"min":95, "max":130},
-					"blue":{"min":35, "max":55}}
-BOMB_COLOR_TRIGGER = {
-					"red":{"min":125, "max":140},
-					"green":{"min":125, "max":135},
-					"blue":{"min":125, "max":135}}
-
-#Election
-ELECTIONS_COLOR_TRIGGERS = [
-					{
-					"red":{"min":250, "max":255},
-					"green":{"min":130, "max":140},
-					"blue":{"min":90, "max":105}
-					},
-					{
-					"red":{"min":220, "max":230},
-					"green":{"min":160, "max":175},
-					"blue":{"min":125, "max":135}
-					}
-]
 
 # X-mas update
 CHRISTMAS_COLOR_TRIGGERS = [
@@ -65,26 +41,38 @@ CHRISTMAS_COLOR_TRIGGERS = [
 					"blue":{"min":120, "max":200}
 					},
 					{
-					"red":{"min":50, "max":120},
-					"green":{"min":100, "max":210},
-					"blue":{"min":5, "max":40}
-					},
-					{
 					"red":{"min":130, "max":180},
 					"green":{"min":50, "max":80},
-					"blue":{"min":0, "max":20}
-					},
-					{
-					"red":{"min":250, "max":255},
-					"green":{"min":150, "max":190},
 					"blue":{"min":0, "max":20}
 					},
 					{
 					"red":{"min":230, "max":240},
 					"green":{"min":85, "max":160},
 					"blue":{"min":70, "max":140}
+					},
+					{
+					"red":{"min":90, "max":120},
+					"green":{"min":35, "max":50},
+					"blue":{"min":0, "max":5}
 					}
+					# ,
+					# {
+					# "red":{"min":250, "max":255},
+					# "green":{"min":130, "max":150},
+					# "blue":{"min":0, "max":5}
+					# },
+					# {
+					# "red":{"min":50, "max":120},
+					# "green":{"min":100, "max":210},
+					# "blue":{"min":5, "max":40}
+					# },
 ]
+
+BOMB_COLOR_TRIGGER = {
+					"red":{"min":240, "max":255},
+					"green":{"min":170, "max":200},
+					"blue":{"min":20, "max":80}
+					}
 
 
 HELP_STRING = \
@@ -94,10 +82,7 @@ Usage: main.py [AMOUNT OF GAMES] [OPTIONS]
 Options:
 	--help           - show this string
 	--xmas           - enable christmas mode
-	--halloween      - enable halloween mode
-	--football       - enable football mode
-	--elections      - enable elections mode
-	--disable-dogs   - don't collect dogs
+	--enable-dogs    - collect dogs
 	--click-limit=n  - limit clicks (Example: --click-limit=0.05, only 5% of clicks)
 
 Keybidings:
