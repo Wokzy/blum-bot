@@ -2,10 +2,6 @@
 ___
 A simple autoclicker for blum drop mini-game on python (autoclicker collects **$dogs**)
 
-### Christmas mode:
- - run `main.py --xmas` to enable christmas mode
- - Unfortunately after the last update of christmas event (bombs were added) I faced performance troubles. Some stuff may not be collected, but neither should bombs.
-
 ## Usage
  - Start tg app, then `main.py` and press play
  - DO NOT CLOSE GAME WINDOW BEFORE GAME IS FINISHED
