@@ -13,8 +13,6 @@ def prepare_app() -> tuple[int]:
 		winlist.append((hwnd, win32gui.GetWindowText(hwnd)))
 	win32gui.EnumWindows(_enum_cb, toplist)
 
-	# print(winlist)
-
 	application = [(hwnd, title) for hwnd, title in winlist if APPLICATION_NAME in title]
 	# just grab the hwnd for first window matching firefox
 	application = application[0]

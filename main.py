@@ -15,16 +15,15 @@ from prepare_app import prepare_app
 from constants import (
 	CLICK_LIMIT,
 	HELP_STRING,
-	CHRISTMAS_MODE,
+	VALENTINES_MODE,
 	DOGS_DROP_TOGGLE,
 	AVG_GAME_DURATION,
-	BOMB_COLOR_TRIGGER,
 	APPLICATION_TRIGGER,
 	NEW_GAME_TRIGGER_POS,
 	PIXELS_PER_ITERATION,
 	DEFAULT_COLOR_TRIGGER,
 	DOGS_WHITE_COLOR_RANGE,
-	CHRISTMAS_COLOR_TRIGGERS,
+	VALENTINES_COLOR_TRIGGERS,
 )
 
 
@@ -64,19 +63,14 @@ def check_object(frame, x:int, y:int) -> bool:
 					return True
 		return False
 
-	if CHRISTMAS_MODE:
-		for i in range(len(CHRISTMAS_COLOR_TRIGGERS)):
-			trigger = CHRISTMAS_COLOR_TRIGGERS[i]
-			if _check_color_trigger(trigger):
-				for lc_x in range(-45, 50, 3):
-					for lc_y in range(-50, 25, 3):
-						if _check_color_trigger(BOMB_COLOR_TRIGGER, x + lc_x, y + lc_y, limit=False):
-							return False
+	if VALENTINES_MODE:
+		for i in range(len(VALENTINES_COLOR_TRIGGERS)):
+			trigger = VALENTINES_COLOR_TRIGGERS[i]
+			if _check_color_trigger(VALENTINES_COLOR_TRIGGERS[i]):
 				return True
 		return False
-	else:
-		if _check_color_trigger(DEFAULT_COLOR_TRIGGER):
-			return True
+	elif _check_color_trigger(DEFAULT_COLOR_TRIGGER):
+		return True
 
 	#DOGS DROP
 	if DOGS_DROP_TOGGLE:
@@ -126,7 +120,7 @@ def main():
 	# time.sleep(2)
 
 	x_shift = 20
-	y_shift_top = 150 + 50*CHRISTMAS_MODE
+	y_shift_top = 150
 	y_shift_bot = 250
 
 	game_counter = 0
@@ -151,7 +145,7 @@ def main():
 						mouse.move(x, y, absolute=True)
 						mouse.click(button='left')
 
-			time.sleep(0.28 - .1*CHRISTMAS_MODE)
+			time.sleep(0.28)
 			frame = camera.get_latest_frame()
 		else:
 			print('Finished')

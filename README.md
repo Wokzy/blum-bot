@@ -1,5 +1,6 @@
 # BlumBot
 ___
+## To enable "valentine's mode" run `main.py --valentines`
 A simple autoclicker for blum drop mini-game on python (autoclicker collects **$dogs**)
 
 ## Usage
