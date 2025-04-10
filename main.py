@@ -13,17 +13,17 @@ import datetime
 
 from prepare_app import prepare_app
 from constants import (
+	TGE_MODE,
 	CLICK_LIMIT,
 	HELP_STRING,
-	VALENTINES_MODE,
 	DOGS_DROP_TOGGLE,
 	AVG_GAME_DURATION,
+	TGE_COLOR_TRIGGERS,
 	APPLICATION_TRIGGER,
 	NEW_GAME_TRIGGER_POS,
 	PIXELS_PER_ITERATION,
 	DEFAULT_COLOR_TRIGGER,
 	DOGS_WHITE_COLOR_RANGE,
-	VALENTINES_COLOR_TRIGGERS,
 )
 
 
@@ -63,10 +63,10 @@ def check_object(frame, x:int, y:int) -> bool:
 					return True
 		return False
 
-	if VALENTINES_MODE:
-		for i in range(len(VALENTINES_COLOR_TRIGGERS)):
-			trigger = VALENTINES_COLOR_TRIGGERS[i]
-			if _check_color_trigger(VALENTINES_COLOR_TRIGGERS[i]):
+	if TGE_MODE:
+		for i in range(len(TGE_COLOR_TRIGGERS)):
+			trigger = TGE_COLOR_TRIGGERS[i]
+			if _check_color_trigger(TGE_COLOR_TRIGGERS[i]):
 				return True
 		return False
 	elif _check_color_trigger(DEFAULT_COLOR_TRIGGER):

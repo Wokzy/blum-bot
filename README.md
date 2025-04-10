@@ -1,6 +1,6 @@
 # BlumBot
 ___
-## To enable "valentine's mode" run `main.py --valentines`
+## To enable "TGE mode" run `main.py --tge`
 A simple autoclicker for blum drop mini-game on python (autoclicker collects **$dogs**)
 
 ## Usage
