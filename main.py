@@ -5,11 +5,14 @@ Autoclicker for Blum drop mini-game
 
 import sys
 import time
-import dxcam
 import mouse
 import random
 import keyboard
 import datetime
+# import dxcam_cpp as dxcam
+import dxcam
+
+from PIL import Image
 
 from prepare_app import prepare_app
 from constants import (
@@ -45,6 +48,15 @@ def check_running(frame, application_bbox) -> bool:
 			if frame[y][x][1] == APPLICATION_TRIGGER['color'][1]:
 				if frame[y][x][2] == APPLICATION_TRIGGER['color'][2]:
 					return True
+
+	for x in APPLICATION_TRIGGER['range'][0]:
+		x += application_bbox[0]
+		for y in APPLICATION_TRIGGER['range'][1]:
+			y += application_bbox[1]
+			if frame[y][x][0] == APPLICATION_TRIGGER['color'][0]:
+				if frame[y][x][1] == APPLICATION_TRIGGER['color'][1]:
+					if frame[y][x][2] == APPLICATION_TRIGGER['color'][2]:
+						return True
 
 	return False
 
@@ -91,7 +103,13 @@ def wait_running_game(camera, timeout:float = .0) -> None:
 	application_bbox = prepare_app()
 	frame = camera.get_latest_frame()
 	timer = time.time()
+	# _flag = True
 	while not check_running(frame, application_bbox):
+		# if frame.any() and _flag:
+		# 	print(frame)
+		# 	# img = Image.fromarray(frame)
+		# 	# img.save('poo3.png')
+		# 	flag = False
 		application_bbox = prepare_app()
 		frame = camera.get_latest_frame()
 
@@ -137,7 +155,7 @@ def main():
 
 		__timer = datetime.datetime.now()
 
-		while check_running(frame, application_bbox) or (datetime.datetime.now() - __timer).total_seconds() < AVG_GAME_DURATION:
+		while (datetime.datetime.now() - __timer).total_seconds() < AVG_GAME_DURATION or check_running(frame, application_bbox):
 
 			for x in x_range:
 				for y in y_range:
