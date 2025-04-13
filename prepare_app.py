@@ -4,7 +4,7 @@ Opens game window and provides info about it
 
 import win32gui
 
-from constants import APPLICATION_NAME
+# from constants import APPLICATION_NAME
 
 def prepare_app() -> tuple[int]:
 	""" Top up window and return its bbox """
@@ -13,8 +13,8 @@ def prepare_app() -> tuple[int]:
 		winlist.append((hwnd, win32gui.GetWindowText(hwnd)))
 	win32gui.EnumWindows(_enum_cb, toplist)
 
-	application = [(hwnd, title) for hwnd, title in winlist if APPLICATION_NAME in title]
-	# just grab the hwnd for first window matching firefox
+	application = [(hwnd, title) for hwnd, title in winlist if title.endswith('Blum')]
+
 	application = application[0]
 	hwnd = application[0]
 

@@ -1,6 +1,7 @@
 #Python3.10 or higher on WINDOWS!
 
-dxcam
 mouse
 pywin32
 keyboard
+# dxcam-cpp
+dxcam==0.0.5
