@@ -3,5 +3,4 @@
 mouse
 pywin32
 keyboard
-# dxcam-cpp
-dxcam==0.0.5
+dxcam-cpp>=0.2.3

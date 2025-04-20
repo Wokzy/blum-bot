@@ -9,8 +9,8 @@ import mouse
 import random
 import keyboard
 import datetime
-# import dxcam_cpp as dxcam
-import dxcam
+import dxcam_cpp as dxcam
+# import dxcam
 
 from PIL import Image
 
@@ -103,13 +103,7 @@ def wait_running_game(camera, timeout:float = .0) -> None:
 	application_bbox = prepare_app()
 	frame = camera.get_latest_frame()
 	timer = time.time()
-	# _flag = True
 	while not check_running(frame, application_bbox):
-		# if frame.any() and _flag:
-		# 	print(frame)
-		# 	# img = Image.fromarray(frame)
-		# 	# img.save('poo3.png')
-		# 	flag = False
 		application_bbox = prepare_app()
 		frame = camera.get_latest_frame()
 
